@@ -23,4 +23,4 @@ Create a map using Leaflet that plots all of the earthquakes from your data set 
     - Your visualization should look something like the map above.
 
 My Visualization:
-![GitHub Logo](/Webpage_Images/webpage.png)
+![GitHub Logo](/Webpages_Images/webpage.png)
