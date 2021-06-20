@@ -57,7 +57,67 @@ function createFeatures(earthquakeData) {
     var earthquakes = L.geoJSON(earthquakeData, {
         onEachFeature: onEachFeature,
         pointToLayer: function(feature, latlng) {
-            return L.circleMarker(latlng, markerStyle);
+            switch (true) {
+                case feature.geometry.coordinates[2] > 90:
+                    return L.circleMarker(latlng, {
+                                fillColor: "#bd0026",
+                                radius: feature.properties.mag * 3,
+                                weight: 2,
+                                opacity: 1,
+                                color: 'opaque',
+                                fillOpacity: 0.7
+                            });;
+                    break;
+                case feature.geometry.coordinates[2] > 70:
+                    return L.circleMarker(latlng, {
+                        fillColor: "#f03b20",
+                        radius: feature.properties.mag * 3,
+                        weight: 2,
+                        opacity: 1,
+                        color: 'opaque',
+                        fillOpacity: 0.7
+                    });;
+                    break;
+                case feature.geometry.coordinates[2] > 50:
+                    return L.circleMarker(latlng, {
+                        fillColor: "#fd8d3c",
+                        radius: feature.properties.mag * 3,
+                        weight: 2,
+                        opacity: 1,
+                        color: 'opaque',
+                        fillOpacity: 0.7
+                    });;
+                    break;
+                case feature.geometry.coordinates[2] > 30:
+                    return L.circleMarker(latlng, {
+                        fillColor: "#feb24c",
+                        radius: feature.properties.mag * 3,
+                        weight: 2,
+                        opacity: 1,
+                        color: 'opaque',
+                        fillOpacity: 0.7
+                    });;
+                    break;
+                case feature.geometry.coordinates[2] > 10:
+                    return L.circleMarker(latlng, {
+                        fillColor: "#fed976",
+                        radius: feature.properties.mag * 3,
+                        weight: 2,
+                        opacity: 1,
+                        color: 'opaque',
+                        fillOpacity: 0.7
+                    });;
+                    break;
+                default:
+                    return L.circleMarker(latlng, {
+                        fillColor: "#ffffb2",
+                        radius: feature.properties.mag * 3,
+                        weight: 2,
+                        opacity: 1,
+                        color: 'opaque',
+                        fillOpacity: 0.7
+                    });;
+            }
         }
     })
     console.log(earthquakeData);
