@@ -10,13 +10,60 @@ d3.json(geojson_url).then(function(data) {
 
 // function to run for each feature in the array
 function createFeatures(earthquakeData) {
+
+    // function to determine size of marker based on magnitude
+    function getSize(mag) {
+        if (mag ===0) {
+            return 0.5;
+        } else {
+            return mag * 2;
+        };
+    };
+    
+    // function to determine color of marker depending of depth of earthquake
+    function getColor(d) {
+        switch (true) {
+            case d > 10:
+                return "#fed976";
+                break;
+            case d > 30:
+                return "#feb24c";
+                break;
+            case d > 50:
+                return "#fd8d3c";
+                break;
+            case d > 70:
+                return "#f03b20";
+                break;
+            case d > 90:
+                return "#bd0026"
+                break;
+            default:
+                return "#ffffb2"
+        }
+    };
+    
+    function myStyle(feature) {
+        return {
+            fillColor: getColor(feature.properties.mag),
+            radius: getSize(feature.properties.mag),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
     
     function onEachFeature(feature, layer) {
         layer.bindPopup("<h3>" + feature.properties.place);
     }
     
     var earthquakes = L.geoJSON(earthquakeData, {
-        onEachFeature: onEachFeature
+        onEachFeature: onEachFeature,
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, myStyle);
+        }
     });
     createMap(earthquakes);
 };
@@ -61,49 +108,49 @@ function createMap(earthquakes) {
     // Be sure to add an overlay Layer containing the earthquake GeoJSON
     L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 
-    // function to determine size of marker based on magnitude
-    function getSize(mag) {
-        if (mag ===0) {
-            return 0.5;
-        } else {
-            return mag * 2;
-        };
-    };
+    // // function to determine size of marker based on magnitude
+    // function getSize(mag) {
+    //     if (mag ===0) {
+    //         return 0.5;
+    //     } else {
+    //         return mag * 2;
+    //     };
+    // };
     
-    // function to determine color of marker depending of depth of earthquake
-    function getColor(d) {
-        switch (true) {
-            case d > 10:
-                return "#fed976";
-                break;
-            case d > 30:
-                return "#feb24c";
-                break;
-            case d > 50:
-                return "#fd8d3c";
-                break;
-            case d > 70:
-                return "#f03b20";
-                break;
-            case d > 90:
-                return "#bd0026"
-                break;
-            default:
-                return "#ffffb2"
-        }
-    };
+    // // function to determine color of marker depending of depth of earthquake
+    // function getColor(d) {
+    //     switch (true) {
+    //         case d > 10:
+    //             return "#fed976";
+    //             break;
+    //         case d > 30:
+    //             return "#feb24c";
+    //             break;
+    //         case d > 50:
+    //             return "#fd8d3c";
+    //             break;
+    //         case d > 70:
+    //             return "#f03b20";
+    //             break;
+    //         case d > 90:
+    //             return "#bd0026"
+    //             break;
+    //         default:
+    //             return "#ffffb2"
+    //     }
+    // };
     
-    function style(feature) {
-        return {
-            fillColor: getColor(feature.geometry.coordinates[2]),
-            radius: getSize(feature.properties.mag),
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.7
-        };
-    }
+    // function style(feature) {
+    //     return {
+    //         fillColor: getColor(feature.geometry.coordinates[2]),
+    //         radius: getSize(feature.properties.mag),
+    //         weight: 2,
+    //         opacity: 1,
+    //         color: 'white',
+    //         dashArray: '3',
+    //         fillOpacity: 0.7
+    //     };
+    // }
 };
 
 // create a lengend to display information about Earthquake data on map
