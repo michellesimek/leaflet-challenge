@@ -3,17 +3,17 @@ let geojson_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all
 // let geojson;
 
 // GET request to querty above URL
-d3.json(geojson_url).then(function(data) {
-    console.log(data.features);
-    createFeatures(data.features);
-});
+d3.json(geojson_url).then(function(earthquakeData) {
+    console.log(earthquakeData.features);
+    createFeatures(earthquakeData.features);
+
 
 // function to run for each feature in the array
 function createFeatures(earthquakeData) {
 
     // function to determine size of marker based on magnitude
     function markerSize(mag) {
-        return mag * 3;
+        return mag * 2;
     };
     
     // function to determine color of marker depending of depth of earthquake
@@ -51,17 +51,20 @@ function createFeatures(earthquakeData) {
     
     function onEachFeature(feature, layer) {
         layer.bindPopup("<h3>" + feature.properties.place);
+        console.log(feature.properties.mag);
     }
     
     var earthquakes = L.geoJSON(earthquakeData, {
         onEachFeature: onEachFeature,
-        pointToLayer: function (feature, latlng) {
+        pointToLayer: function(feature, latlng) {
             return L.circleMarker(latlng, markerStyle);
         }
-    });
+    })
+    console.log(earthquakeData);
+
     createMap(earthquakes);
 };
-
+});
 function createMap(earthquakes) {
 // create LayerGroup for Earthquake data
     // let earthquakeLayer = new L.layerGroup();
